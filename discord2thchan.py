@@ -8,7 +8,7 @@ from loguru import logger
 def take_chat_id():
 	r = requests.get(f'https://api.telegram.org/bot{tgbot_key}/getUpdates?offset=-1')
 	try:
-		chat_id = '-1001981434917'
+		chat_id = {channel_id}
 		nickname = r.json()['result'][0]['message']['chat']['first_name']
 	except Exception as error:
 		print(f'Error: {error}\n {r.json()}')
@@ -29,12 +29,12 @@ def check_posts(old_msg_id, chat_id, nickname):
 					if len(msg_text) > 0:
 						for i in range(repeat_num):
 							requests.post(f'https://api.telegram.org/bot{tgbot_key}/sendMessage',
-										  json={'chat_id': '@mirrorbeta', 'text': f'New post:\n{str(msg_text)}'})
+										  json={'chat_id': {channel_username}, 'text': f'New post:\n{str(msg_text)}'})
 							sleep(1)
 
 					else:
 						requests.post(f'https://api.telegram.org/bot{tgbot_key}/sendMessage',
-									  json={'chat_id': '@mirrorbeta', 'text': 'New post: empty'})
+									  json={'chat_id': {channel_username}, 'text': 'New post: empty'})
 				old_msg_id = new_msg_id
 		except:
 			pass
@@ -43,9 +43,11 @@ def check_posts(old_msg_id, chat_id, nickname):
 logger.remove()
 logger.add(stderr, format="<white>{time:HH:mm:ss}</white> | <level>{level: <8}</level> | <cyan>{line}</cyan> - <white>{message}</white>")
 
-tgbot_key = '6233718246:AAHiY8H_-4Jo2Zuq-cqqqTfnW3xuQ1pkYeM'
-ds_token = 'MTA5Mjk2NTY4OTE4MDAzNzIwMA.G_tjvD.dr7XHxRCh0ATe8JmAPnjdEt6cEkFyNkV4e8lPw'
-ds_chatid = 1021656352432603156
+tgbot_key = 'TG_TOKEN' #str
+ds_token = 'DS_TOKEN'  #str
+ds_chatid = DS_CHANNEL_ID #последний номер в адресной строке без кавычек
 repeat_num = 1
+channel_username = '@CHANNEL_USERNAME'
+channel_id = 'CHANNEL_ID'
 
 take_chat_id()
